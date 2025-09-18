@@ -1,0 +1,40 @@
+.card{
+    width : "500px";
+    background-color: #aaa;
+}
+
+#create-user-modal {
+    box-sizing: border-box;
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 80%;
+    border: 1px solid black;
+    padding: 16px
+}
+
+#show-create-user{
+    display: none;
+}
+
+#show-create-user:checked ~ #create-user-modal{
+    display: block;
+}
+
+#edit-user-modal {
+    box-sizing: border-box;
+    display: none;
+    position: fixed;
+    top: 10%;
+    left: 80%;
+    border: 1px solid black;
+    padding: 16px
+}
+
+#show-edit-user{
+    display: none;
+}
+
+#show-edit-user:checked ~ #edit-user-modal{
+    display: block;
+}
