@@ -32,8 +32,7 @@
             </div>
         </dialog>
 
-    <input type="checkbox" id="show-edit-user" >
-        <label for="show-edit-user">Edit user</label>
+    <input type="checkbox" id="show-edit-user">
         <dialog id="edit-user-modal">
             <div id="content-modal">
                 <form onsubmit="editUser(event)">
@@ -50,8 +49,8 @@
                     <p>User roles *</p>
                     <input type="text" id="edit-user-roles">
 
-                    <label for="show-edit-user">Cancel</label>
-                    <button type="submit">Edit</button>
+                    <button type="button" onclick="toggleEditUser(id)">CANCEL</button>
+                    <button type="submit">EDIT</button>
                 </form>
             </div>
         </dialog>

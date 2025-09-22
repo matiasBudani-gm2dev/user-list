@@ -1,28 +1,37 @@
 const URL = "https://64fb193acb9c00518f7aa434.mockapi.io/api/v1/userList"
 const cards = document.querySelector(".cards")
 
-let indexUser;
+let currentUserEdit;
+
 const showCards = async() =>{
+    
     const response = await fetch(URL)
     const resData = await response.json()
-    indexUser = 0
+
     resData.forEach(user => {
         const card = document.createElement("div")
         card.id = user.id
+
         card.classList.add("card")
+
         const userName = document.createElement("p")
         userName.textContent = user.name
+
         const userEmail = document.createElement("p")
         userEmail.textContent = user.email
+
         const userId = document.createElement("p")
         userId.textContent = user.id
+
         const userDelete = document.createElement(`button`)
-        userDelete.id = indexUser
+        userDelete.id = user.id
+
         userDelete.onclick = () => deleteUser(user.id)
         userDelete.textContent = "DELETE"
+
         const userEdit = document.createElement(`button`)
-        userEdit.id = indexUser
-        userEdit.onclick = () => editUser(user.id)
+        userEdit.id = user.id
+        userEdit.onclick = ()=>{ toggleEditUser(user.id)}
         userEdit.textContent = "EDIT"
 
 
@@ -32,8 +41,6 @@ const showCards = async() =>{
         card.appendChild(userDelete)
         card.appendChild(userEdit)
         cards.appendChild(card)
-
-        indexUser++
     });
 }
 
@@ -95,7 +102,18 @@ const createUser = async (event)=>{
     }
 }
 
-const editUser = async ()=>{
+const toggleEditUser = (id)=>{
+    currentUserEdit = id
+    const editModal = document.getElementById("show-edit-user")
+    if(editModal.checked){
+        editModal.checked = false
+    }else{
+        editModal.checked = true
+    }
+}
+
+const editUser = async (event)=>{
+
     event.preventDefault()
 
     const datosAEditar = {
@@ -105,44 +123,43 @@ const editUser = async ()=>{
     console.log(editUserName)
 
     if(editUserName){
-        datosAEditar.push(editUserName)
+        datosAEditar.name = editUserName
     }
 
     const editUserEmail = document.getElementById("edit-user-email").value
     console.log(editUserEmail)
 
     if(editUserEmail){
-        datosAEditar.push(editUserEmail)
+        datosAEditar.email = editUserEmail
     }
 
     const editUserCountry = document.getElementById("edit-user-country").value
     console.log(editUserCountry)
 
     if(editUserCountry){
-        datosAEditar.push(editUserCountry)
+        datosAEditar.country = editUserCountry
     }
 
     const editUserAvatar = document.getElementById("edit-user-avatar").value
     console.log(editUserAvatar)
 
     if(editUserAvatar){
-        datosAEditar.push(editUserAvatar)
+        datosAEditar.avatar =editUserAvatar
     }
 
     const editUserRoles = []
     if(editUserRoles.length !== 0){
-        editUserRoles.push(document.getElementById("edit-user-roles").value)
+        editUserRoles.roles = document.getElementById("edit-user-roles").value
     }
 
-    if(editUserRoles.length === 0){
-        datosAEditar.push(editUserRoles)
-    }
+    console.log(URL + `/${currentUserEdit}`)
+    console.log(datosAEditar)
 
-    const response = fetch(URL, {
-       method: "PATCH",
+    const response = await fetch(URL + `/${currentUserEdit}`, {
+       method: "PUT",
        headers : {"Content-Type": "application/json"
         },
-        body
+        body : JSON.stringify(datosAEditar)
     })
 }
 
